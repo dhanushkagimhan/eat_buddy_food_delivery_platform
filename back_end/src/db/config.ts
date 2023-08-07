@@ -8,8 +8,7 @@ const dbPassword = process.env.DB_PASSWORD
 
 const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
     host: dbHost,
-    dialect: dbDriver,
-    port: 3308
+    dialect: dbDriver
 })
 
 const checkDBConnection = async () => {
