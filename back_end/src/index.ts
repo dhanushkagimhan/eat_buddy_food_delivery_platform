@@ -1,9 +1,15 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import 'dotenv/config';
+import routes from './api/routes'
+import dbInit from "./db/init";
+import { checkDBConnection } from "./db/config";
 
-const app = express()
+const app: Application = express()
 const PORT: string | number = process.env.PORT ?? 8080;
+
+checkDBConnection()
+dbInit()
 
 const corOptions = {
     origin: "https://localhost",
@@ -26,7 +32,9 @@ app.get('/', (req, res) => {
     res.json({ message: "Hello from API!" })
 })
 
+// routes
 
+app.use('/v1', routes)
 
 // server
 
