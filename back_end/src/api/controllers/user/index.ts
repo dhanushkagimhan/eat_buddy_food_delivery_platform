@@ -1,23 +1,50 @@
 import * as service from '../../../db/services/userService'
-// import {CreateUserDTO, UpdateUserDTO, FilterUsersDTO} from '../../dto/user.dto'
-// import {Ingredient} from '../../interfaces'
-import { UserInterface, GetAllUsersFilters, UserInput, UserOutput } from '../../../common/interfaces'
-// import * as mapper from './mapper'
+import { UserInput, UserOutput, UserResponse } from '../../../common/interfaces'
+import { Request, Response } from 'express'
+import bcrypt from 'bcrypt';
 
-export const create = async (payload: UserInput): Promise<UserOutput> => {
-    // return mapper.toIngredient(await service.create(payload))
-    return await service.create(payload)
+export const register = async (req: Request, res: Response): Promise<Response> => {
+    const payload: UserInput = req.body;
+    try {
+        console.log('payload ', payload)
+        const newUser: UserOutput = await service.register(payload);
+
+        const userRes: UserResponse = {
+            ...newUser,
+            token: 'this is token'
+        }
+
+        return res.status(201).send(userRes)
+    }
+    catch (error) {
+        console.log(`Error occured when registering : ${error}`)
+        return res.status(500).send('system Error');
+    }
 }
-// export const update = async (id: number, payload: UpdateIngredientDTO): Promise<Ingredient> => {
-//     return mapper.toIngredient(await service.update(id, payload))
-// }
-// export const getById = async (id: number): Promise<Ingredient> => {
-//     return mapper.toIngredient(await service.getById(id))
-// }
-// export const deleteById = async(id: number): Promise<Boolean> => {
-//     const isDeleted = await service.deleteById(id)
-//     return isDeleted
-// }
-export const getAll = async (filters: GetAllUsersFilters): Promise<UserInterface[]> => {
-    return await service.getAll(filters)
+
+export const login = async (req: Request, res: Response): Promise<Response> => {
+    const payload: UserInput = req.body;
+    try {
+        const foundUser: UserOutput = await service.login(payload)
+
+        if (foundUser == null) {
+            return res.status(404).send('Email is not found')
+        }
+
+        const isMatch: boolean = bcrypt.compareSync(payload.password, foundUser.password)
+
+        if (isMatch) {
+            const userRes: UserResponse = {
+                ...foundUser,
+                token: 'this is token'
+            }
+            return res.status(200).send(userRes)
+        } else {
+            return res.status(401).send('Password is wrong');
+        }
+    } catch (error) {
+        console.log(`Error occured when login : ${error}`)
+        return res.status(500).send('system Error');
+    }
+
 }

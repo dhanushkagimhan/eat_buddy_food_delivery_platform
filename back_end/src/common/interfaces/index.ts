@@ -1,3 +1,8 @@
-import { UserInterface, UserInput, UserOutput, GetAllUsersFilters } from "./user.interface";
+import { UserInterface, UserInput, UserOutput, UserResponse } from "./user.interface";
 
-export { UserInterface, UserInput, UserOutput, GetAllUsersFilters }
+interface GetAllFilters {
+    isDeleted?: boolean
+    includeDeleted?: boolean
+}
+
+export { UserInterface, UserInput, UserOutput, GetAllFilters, UserResponse }

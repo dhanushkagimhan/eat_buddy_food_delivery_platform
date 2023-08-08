@@ -20,6 +20,4 @@ const checkDBConnection = async () => {
     }
 }
 
-
-
 export { sequelizeConnection, checkDBConnection };

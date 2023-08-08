@@ -16,8 +16,6 @@ const corOptions = {
     methods: "GET,PATCH,POST,DELETE"
 }
 
-// Middleware
-
 app.use(cors(corOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -26,17 +24,7 @@ app.get('/', (req: Request, res: Response) => {
     res.json({ message: "Hello from API!" })
 })
 
-// testing api
-
-app.get('/', (req, res) => {
-    res.json({ message: "Hello from API!" })
-})
-
-// routes
-
 app.use('/v1', routes)
-
-// server
 
 try {
     app.listen(PORT, () => {
