@@ -6,13 +6,16 @@ export interface UserInterface {
     first_name: string;
     last_name: string;
     password: string;
-    created_at?: Date;
-    updated_at?: Date;
-    deleted_at?: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
+    deletedAt?: Date;
 }
 
 export interface UserInput extends Optional<UserInterface, 'email'> { }
 export interface UserOutput extends Required<UserInterface> { }
-export interface UserResponse extends UserOutput {
+export interface UserResponse extends Omit<UserInterface, 'password' | 'createdAt' | 'updatedAt' | 'deletedAt'> {
+    created_at: Date;
+    updated_at: Date;
+    deleted_at?: Date;
     token: string;
 }

@@ -3,7 +3,7 @@ import { sequelizeConnection } from '../config'
 import { UserInterface, UserInput } from '../../common/interfaces'
 import * as bcrypt from 'bcrypt';
 
-class user extends Model<UserInterface, UserInput> implements UserInterface {
+class User extends Model<UserInterface, UserInput> implements UserInterface {
     public id!: number
     public email!: string
     public first_name!: string
@@ -16,15 +16,19 @@ class user extends Model<UserInterface, UserInput> implements UserInterface {
     public readonly deletedAt!: Date;
 }
 
-const getHashPassword = async (password: string): Promise<string> => {
-    const saltRound = 8
-    console.log('password ', password)
-    const hashPassword: string = await bcrypt.hash(password, saltRound)
-    console.log('hashPassword ', hashPassword)
-    return hashPassword;
-}
+// const getHashPassword = async (password: string) => {
+//     const saltRound = 8
+//     console.log('password ', password)
+//     try {
+//         const hashPassword: string = await bcrypt.hash(password, saltRound)
+//         console.log('hashPassword ', hashPassword)
+//         return hashPassword;
+//     } catch (error) {
+//         console.log(`encryption error : ${error}`);
+//     }
+// }
 
-user.init({
+User.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -46,9 +50,9 @@ user.init({
     password: {
         type: DataTypes.STRING,
         allowNull: false,
-        set(value: string) {
-            return getHashPassword(value)
-        }
+        // set(value: string) {
+        //     return getHashPassword(value)
+        // }
     }
 }, {
     timestamps: true,
@@ -56,4 +60,4 @@ user.init({
     paranoid: true
 })
 
-export default user;
+export default User;
