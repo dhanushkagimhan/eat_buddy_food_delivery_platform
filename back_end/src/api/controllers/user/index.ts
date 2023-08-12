@@ -17,11 +17,11 @@ export const register = async (req: Request, res: Response) => {
 
         const token: string = jwt.sign({ _id: newUser.id?.toString(), email: newUser.email }, SECRET_KEY, { expiresIn: '1h' });
         const userRes: UserResponse = toUser(newUser, token)
-        res.status(201).send(userRes)
+        return res.status(201).send(userRes)
     }
     catch (error) {
         console.log(`Error occured when registering : ${error}`)
-        res.status(500).send('system Error');
+        return res.status(500).send('system Error');
     }
 }
 
@@ -30,8 +30,8 @@ export const login = async (req: Request, res: Response) => {
     try {
         const foundUser: UserOutput = await service.login(payload)
 
-        if (foundUser == null) {
-            res.status(404).send('Email is not found')
+        if (!foundUser) {
+            return res.status(404).send('Email is not found')
         }
 
         const isMatch: boolean = bcrypt.compareSync(payload.password, foundUser.password)
@@ -39,13 +39,13 @@ export const login = async (req: Request, res: Response) => {
         if (isMatch) {
             const token: string = jwt.sign({ _id: foundUser.id?.toString(), email: foundUser.email }, SECRET_KEY, { expiresIn: '1h' });
             const userRes: UserResponse = toUser(foundUser, token)
-            res.status(200).send(userRes)
+            return res.status(200).send(userRes)
         } else {
-            res.status(401).send('Password is wrong');
+            return res.status(401).send('Password is wrong');
         }
     } catch (error) {
         console.log(`Error occured when login : ${error}`)
-        res.status(500).send('system Error');
+        return res.status(500).send('system Error');
     }
 
 }

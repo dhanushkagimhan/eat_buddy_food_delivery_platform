@@ -1,11 +1,9 @@
 import './MainPage.scss';
 
-const MainPage = () => {
+export default function MainPage() {
     return (
         <div>
             Main page
         </div>
     )
 }
-
-export default MainPage;

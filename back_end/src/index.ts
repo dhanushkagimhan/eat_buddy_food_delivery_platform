@@ -12,7 +12,7 @@ checkDBConnection()
 dbInit()
 
 const corOptions = {
-    origin: "https://localhost",
+    origin: "http://localhost:3000",
     methods: "GET,PATCH,POST,DELETE"
 }
 
