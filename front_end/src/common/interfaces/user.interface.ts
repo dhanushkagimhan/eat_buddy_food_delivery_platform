@@ -4,13 +4,13 @@ export interface UserCredential {
 }
 
 export interface UserInterface {
-    id: number;
+    id?: number;
     email: string;
     first_name: string;
     last_name: string;
     password?: string;
-    created_at: Date;
-    updated_at: Date;
+    created_at?: Date;
+    updated_at?: Date;
     deleted_at?: Date;
-    token: string;
+    token?: string;
 }

@@ -1,3 +1,7 @@
 import { UserCredential, UserInterface } from "./user.interface";
 
-export type { UserCredential, UserInterface }
+interface AsyncThunkRejectError {
+    message: string
+}
+
+export type { UserCredential, UserInterface, AsyncThunkRejectError }

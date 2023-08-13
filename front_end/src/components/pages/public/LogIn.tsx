@@ -1,16 +1,25 @@
-import { Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, TextField, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Alert, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, TextField, ThemeProvider, Typography, createTheme } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import './LogIn.scss';
-import { useAppDispatch } from '../../../app/hooks';
-import { userLogin } from '../../../features/auth/authActions';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { userLogIn } from '../../../features/auth/authActions';
 import { UserCredential } from '../../../common/interfaces';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const defaultTheme = createTheme();
 
 export default function LogIn() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { userInfo, success, error } = useAppSelector((state) => state.auth)
+
+    useEffect(() => {
+        console.log(userInfo)
+        if (success) {
+            navigate('/home')
+        }
+    }, [success])
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -20,8 +29,7 @@ export default function LogIn() {
             password: data.get('password') as string,
         }
         console.log(inputData)
-        dispatch(userLogin(inputData))
-        navigate('/home')
+        dispatch(userLogIn(inputData))
     };
 
     return (
@@ -43,6 +51,7 @@ export default function LogIn() {
                         Sign in
                     </Typography>
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        {error && <Alert severity="error">{error}</Alert>}
                         <TextField
                             margin="normal"
                             required

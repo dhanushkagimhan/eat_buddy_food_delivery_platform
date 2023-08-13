@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin } from "./authActions";
+import { userLogIn, userSignUp } from "./authActions";
 import { UserInterface } from "../../common/interfaces";
 
 interface AuthState {
@@ -21,17 +21,30 @@ const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(userLogin.pending, (state) => {
-            state.loading = true;
-        })
-            .addCase(userLogin.fulfilled, (state, action) => {
-                state.loading = false
-                state.userInfo = action.payload
-                state.success = true
+        builder
+            .addCase(userLogIn.pending, (state) => {
+                state.loading = true;
             })
-            .addCase(userLogin.rejected, (state, action) => {
-                state.loading = false
-                state.error = action.payload as string
+            .addCase(userLogIn.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userInfo = action.payload;
+                state.success = true;
+            })
+            .addCase(userLogIn.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message;
+            })
+            .addCase(userSignUp.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(userSignUp.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userInfo = action.payload;
+                state.success = true;
+            })
+            .addCase(userSignUp.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message;
             })
     }
 })
