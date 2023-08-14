@@ -1,8 +1,12 @@
+import { ResturantInput, ResturantInterface, ResturantOutput } from "./resturant.interface";
 import { UserInterface, UserInput, UserOutput, UserResponse } from "./user.interface";
 
-interface GetAllFilters {
-    isDeleted?: boolean
-    includeDeleted?: boolean
+export {
+    UserInterface,
+    UserInput,
+    UserOutput,
+    UserResponse,
+    ResturantInterface,
+    ResturantInput,
+    ResturantOutput
 }
-
-export { UserInterface, UserInput, UserOutput, GetAllFilters, UserResponse }

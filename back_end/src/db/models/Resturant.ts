@@ -1,13 +1,12 @@
 import { DataTypes, Model } from 'sequelize'
 import { sequelizeConnection } from '../config'
-import { UserInterface, UserInput } from '../../common/interfaces'
+import { ResturantInput, ResturantInterface } from '../../common/interfaces'
 
-class User extends Model<UserInterface, UserInput> implements UserInterface {
+class Resturant extends Model<ResturantInterface, ResturantInput> implements ResturantInterface {
     public id!: number
-    public email!: string
-    public first_name!: string
-    public last_name!: string
-    public password!: string
+    public name!: string
+    public address!: string
+    public phone_number!: string
 
     // timestamps!
     public readonly createdAt!: Date;
@@ -15,26 +14,21 @@ class User extends Model<UserInterface, UserInput> implements UserInterface {
     public readonly deletedAt!: Date;
 }
 
-User.init({
+Resturant.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
     },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    first_name: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    last_name: {
+    address: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    password: {
+    phone_number: {
         type: DataTypes.STRING,
         allowNull: false
     }
@@ -44,4 +38,4 @@ User.init({
     paranoid: true
 })
 
-export default User;
+export default Resturant;
