@@ -33,7 +33,7 @@ export const userLogIn = createAsyncThunk<
             if (axios.isAxiosError(error)) {
                 console.log('login data fetch error ', error)
                 if (error.response?.data) {
-                    return rejectWithValue({ message: error.response?.data })
+                    return rejectWithValue({ message: error.response?.data.message })
                 }
                 else {
                     return rejectWithValue({ message: error.message })
@@ -79,7 +79,7 @@ export const userSignUp = createAsyncThunk<
             if (axios.isAxiosError(error)) {
                 console.log('login data fetch error ', error)
                 if (error.response?.data) {
-                    return rejectWithValue({ message: error.response?.data })
+                    return rejectWithValue({ message: error.response?.data.message })
                 }
                 else {
                     return rejectWithValue({ message: error.message })

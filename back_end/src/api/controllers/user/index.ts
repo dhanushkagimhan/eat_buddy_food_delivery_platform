@@ -21,7 +21,7 @@ export const register = async (req: Request, res: Response) => {
     }
     catch (error) {
         console.log(`Error occured when registering : ${error}`)
-        return res.status(500).send('system Error');
+        return res.status(500).send({ message: 'system Error' });
     }
 }
 
@@ -31,7 +31,7 @@ export const login = async (req: Request, res: Response) => {
         const foundUser: UserOutput = await service.login(payload)
 
         if (!foundUser) {
-            return res.status(404).send('Email is not found')
+            return res.status(404).send({ message: 'Email is not found' })
         }
 
         const isMatch: boolean = bcrypt.compareSync(payload.password, foundUser.password)
@@ -41,11 +41,11 @@ export const login = async (req: Request, res: Response) => {
             const userRes: UserResponse = toUser(foundUser, token)
             return res.status(200).send(userRes)
         } else {
-            return res.status(401).send('Password is wrong');
+            return res.status(401).send({ message: 'Password is wrong' });
         }
     } catch (error) {
         console.log(`Error occured when login : ${error}`)
-        return res.status(500).send('system Error');
+        return res.status(500).send({ message: 'system Error' });
     }
 
 }

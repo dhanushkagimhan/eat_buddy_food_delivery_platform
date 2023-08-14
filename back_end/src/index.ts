@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import 'dotenv/config';
-import routes from './api/routes'
+import router from './api/routes'
 import dbInit from "./db/init";
 import { checkDBConnection } from "./db/config";
 
@@ -24,7 +24,7 @@ app.get('/', (req: Request, res: Response) => {
     res.json({ message: "Hello from API!" })
 })
 
-app.use('/v1', routes)
+app.use('/v1', router)
 
 try {
     app.listen(PORT, () => {
