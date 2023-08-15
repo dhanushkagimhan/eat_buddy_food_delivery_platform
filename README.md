@@ -6,13 +6,13 @@ Fistly clone the project repository to local folder.
 
 Then,
 
-### `cd back_end`
-### `npm start` or `nodemon`
+`cd back_end`
+`npm start` or `nodemon`
 
 Then, Open the new terminal and run,
 
-### `cd front_end`
-### `npm start`
+`cd front_end`
+`npm start`
 
 Then, Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
