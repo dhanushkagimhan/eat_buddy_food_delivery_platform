@@ -20,3 +20,8 @@ export interface UserResponse extends Omit<UserInterface, 'password' | 'createdA
     access_token: string;
     refresh_token: string;
 }
+
+export interface RefreshTokenResponse {
+    access_token: string;
+    refresh_token: string;
+}

@@ -1,9 +1,9 @@
 import * as service from '../../../db/services/userService'
-import { RefreshTokenInput, RefreshTokenOutput, UserInput, UserOutput, UserResponse } from '../../../common/interfaces'
+import { RefreshTokenInput, RefreshTokenOutput, RefreshTokenResponse, UserInput, UserOutput, UserResponse } from '../../../common/interfaces'
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt';
 import { toUser } from './mapper';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { SECRET_KEY } from '../../middleware/auth';
 import * as refreshTokenService from '../../../db/services/refreshTokenService'
 
@@ -50,9 +50,52 @@ export const login = async (req: Request, res: Response) => {
     }
 }
 
+export const authRefreshToken = async (req: Request, res: Response) => {
+    try {
+        const refreshToken: string = req.body.refresh_token;
+
+        if (!refreshToken) {
+            throw new Error('request not include the refresh token')
+        }
+
+        const decoded: JwtPayload = jwt.verify(refreshToken, SECRET_KEY) as JwtPayload;
+
+        const refreshTokenEntry: RefreshTokenOutput = await refreshTokenService.findByRefreshToken(refreshToken)
+
+        if (!refreshTokenEntry) {
+            throw new Error('Entry not having for the refresh token')
+        }
+
+        if (!refreshTokenEntry.is_valid) {
+            await refreshTokenService.findByUserIdAndUpdateValidity(refreshTokenEntry.user_id, false);
+            throw new Error("Try to get new access token with old refresh token")
+        }
+
+        const newRefreshToken: RefreshTokenOutput = await createAccessAndRefreshToken(refreshTokenEntry.user_id, decoded.email)
+
+        if (!newRefreshToken) {
+            throw new Error('Error when creating the new refresh token')
+        }
+
+        const newTokensResponse: RefreshTokenResponse = {
+            access_token: newRefreshToken.access_token,
+            refresh_token: newRefreshToken.refresh_token
+        }
+
+        return res.status(200).send(newTokensResponse)
+
+    } catch (error) {
+        console.log(`Error occured when refreshing the access token : ${error}`)
+        return res.status(403).send({ message: 'Could not refresh the access token' })
+    }
+
+}
+
 const createAccessAndRefreshToken = async (userId: number, userEmail: string): Promise<RefreshTokenOutput> => {
     const accessToken: string = jwt.sign({ _id: userId.toString(), email: userEmail }, SECRET_KEY, { expiresIn: '5m' });
     const refreshToken: string = jwt.sign({ _id: userId.toString(), email: userEmail }, SECRET_KEY, { expiresIn: '1h' });
+
+    await refreshTokenService.findByUserIdAndUpdateValidity(userId, false);
 
     const payload: RefreshTokenInput = {
         refresh_token: refreshToken,

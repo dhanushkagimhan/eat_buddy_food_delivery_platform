@@ -48,7 +48,4 @@ RefreshToken.init({
     paranoid: true
 })
 
-User.hasMany(RefreshToken)
-RefreshToken.belongsTo(User)
-
 export default RefreshToken;
