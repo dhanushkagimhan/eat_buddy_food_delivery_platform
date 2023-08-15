@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AsyncThunkRejectError, UserCredential, UserInterface } from "../../common/interfaces";
+import { HeaderConfig } from "../utilityFunction/headerConfig";
 
 const backendURl = process.env.REACT_APP_BACKEND_URL;
 
@@ -14,11 +15,6 @@ export const userLogIn = createAsyncThunk<
     'auth/login',
     async (userData, { rejectWithValue }) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
             console.log('user data ', userData)
             const response = await axios.post(
                 `${backendURl}/v1/user/login`,
@@ -26,7 +22,7 @@ export const userLogIn = createAsyncThunk<
                     email: userData.email,
                     password: userData.password
                 },
-                config
+                HeaderConfig()
             )
             return response.data
         } catch (error) {
@@ -57,11 +53,6 @@ export const userSignUp = createAsyncThunk<
     'auth/signup',
     async (userData, { rejectWithValue }) => {
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
             console.log('user data ', userData)
             const response = await axios.post(
                 `${backendURl}/v1/user/register`,
@@ -71,7 +62,7 @@ export const userSignUp = createAsyncThunk<
                     last_name: userData.last_name,
                     password: userData.password
                 },
-                config
+                HeaderConfig()
             )
 
             return response.data
