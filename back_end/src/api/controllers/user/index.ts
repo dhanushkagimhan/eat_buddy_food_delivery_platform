@@ -1,10 +1,11 @@
 import * as service from '../../../db/services/userService'
-import { UserInput, UserOutput, UserResponse } from '../../../common/interfaces'
+import { RefreshTokenInput, RefreshTokenOutput, UserInput, UserOutput, UserResponse } from '../../../common/interfaces'
 import { Request, Response } from 'express'
 import bcrypt from 'bcrypt';
 import { toUser } from './mapper';
 import jwt from 'jsonwebtoken';
 import { SECRET_KEY } from '../../middleware/auth';
+import * as refreshTokenService from '../../../db/services/refreshTokenService'
 
 export const register = async (req: Request, res: Response) => {
     const payload: UserInput = req.body;
@@ -15,8 +16,8 @@ export const register = async (req: Request, res: Response) => {
         console.log('payload with hashpassword ', payload)
         const newUser: UserOutput = await service.register(payload);
 
-        const token: string = jwt.sign({ _id: newUser.id?.toString(), email: newUser.email }, SECRET_KEY, { expiresIn: '1h' });
-        const userRes: UserResponse = toUser(newUser, token)
+        const newAccessAndRefreshTokenResponse: RefreshTokenOutput = await createAccessAndRefreshToken(newUser.id, newUser.email)
+        const userRes: UserResponse = toUser(newUser, newAccessAndRefreshTokenResponse.access_token, newAccessAndRefreshTokenResponse.refresh_token)
         return res.status(201).send(userRes)
     }
     catch (error) {
@@ -37,8 +38,8 @@ export const login = async (req: Request, res: Response) => {
         const isMatch: boolean = bcrypt.compareSync(payload.password, foundUser.password)
 
         if (isMatch) {
-            const token: string = jwt.sign({ _id: foundUser.id?.toString(), email: foundUser.email }, SECRET_KEY, { expiresIn: '1h' });
-            const userRes: UserResponse = toUser(foundUser, token)
+            const newAccessAndRefreshTokenResponse: RefreshTokenOutput = await createAccessAndRefreshToken(foundUser.id, foundUser.email)
+            const userRes: UserResponse = toUser(foundUser, newAccessAndRefreshTokenResponse.access_token, newAccessAndRefreshTokenResponse.refresh_token)
             return res.status(200).send(userRes)
         } else {
             return res.status(401).send({ message: 'Password is wrong' });
@@ -47,5 +48,18 @@ export const login = async (req: Request, res: Response) => {
         console.log(`Error occured when login : ${error}`)
         return res.status(500).send({ message: 'system Error' });
     }
+}
 
+const createAccessAndRefreshToken = async (userId: number, userEmail: string): Promise<RefreshTokenOutput> => {
+    const accessToken: string = jwt.sign({ _id: userId.toString(), email: userEmail }, SECRET_KEY, { expiresIn: '5m' });
+    const refreshToken: string = jwt.sign({ _id: userId.toString(), email: userEmail }, SECRET_KEY, { expiresIn: '1h' });
+
+    const payload: RefreshTokenInput = {
+        refresh_token: refreshToken,
+        access_token: accessToken,
+        is_valid: true,
+        user_id: userId
+    }
+
+    return await refreshTokenService.create(payload)
 }

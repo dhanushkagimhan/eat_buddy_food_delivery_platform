@@ -23,11 +23,11 @@ RefreshToken.init({
         primaryKey: true,
     },
     refresh_token: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     access_token: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     is_valid: {
