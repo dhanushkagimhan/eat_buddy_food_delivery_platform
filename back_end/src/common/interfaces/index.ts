@@ -1,3 +1,4 @@
+import { RefreshTokenInput, RefreshTokenInterface, RefreshTokenOutput } from "./refreshToken.interface";
 import { ResturantInput, ResturantInterface, ResturantOutput } from "./resturant.interface";
 import { UserInterface, UserInput, UserOutput, UserResponse } from "./user.interface";
 
@@ -8,5 +9,8 @@ export {
     UserResponse,
     ResturantInterface,
     ResturantInput,
-    ResturantOutput
+    ResturantOutput,
+    RefreshTokenInterface,
+    RefreshTokenInput,
+    RefreshTokenOutput
 }
