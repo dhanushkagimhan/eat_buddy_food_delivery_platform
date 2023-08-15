@@ -2,9 +2,9 @@
 
 ## Guide to localy setup this project
 
-Fistly clone the project repository to local folder. 
+Fistly create `eat_buddy_db` database in MySQL server and start the server. 
 
-And then create `eat_buddy_db` database in MySQL server and start the server. 
+And then clone the project repository to local folder. 
 
 Then,
 
