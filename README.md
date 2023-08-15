@@ -4,6 +4,8 @@
 
 Fistly clone the project repository to local folder. 
 
+And then create `eat_buddy_db` database in MySQL server and start the server. 
+
 Then,
 
 `cd back_end`\
