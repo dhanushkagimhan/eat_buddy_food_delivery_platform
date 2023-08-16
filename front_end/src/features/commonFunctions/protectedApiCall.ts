@@ -1,26 +1,25 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { refreshToken } from "../auth/authActions";
+import { AppDispatch, RootState } from "../../app/store";
 
-enum apiMethods {
+export enum apiMethods {
     POST = 'POST',
     GET = 'GET',
     PATCH = 'PATCH',
     DELETE = 'DELETE'
 }
 
-export default async function ProtectedApiCall<DataT, ResponseT>(subUrl: string, apiMethod: apiMethods, bodyData: DataT): Promise<ResponseT> {
+export default async function ProtectedApiCall<DataT, ResponseT>(subUrl: string, apiMethod: apiMethods, dispatch: AppDispatch, state: RootState, bodyData: DataT): Promise<ResponseT> {
     const backendURl = process.env.REACT_APP_BACKEND_URL;
 
-    const dispatch = useAppDispatch()
-    const authState = useAppSelector((state) => state.auth)
+    const authState = state.auth;
 
     if (!authState.userInfo?.access_token) {
         throw new Error('User is not authenticated')
     }
 
     const config: AxiosRequestConfig<DataT> = {
-        url: `${backendURl}/subUrl`,
+        url: `${backendURl}/${subUrl}`,
         method: apiMethod,
         data: bodyData,
         headers: {
