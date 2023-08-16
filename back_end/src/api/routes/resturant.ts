@@ -1,18 +1,18 @@
-import { Router } from 'express'
+import { RequestHandler, Router } from 'express'
 import * as resturantController from '../controllers/resturant'
 import { auth } from '../middleware/auth'
 
 const resturantRouter = Router()
 
-resturantRouter.post('/', auth, resturantController.create)
+resturantRouter.post('/', [auth, resturantController.create] as RequestHandler[])
 
-resturantRouter.get('/:id', auth, resturantController.getResturant)
+resturantRouter.get('/:id', [auth, resturantController.getResturant] as RequestHandler[])
 
-resturantRouter.patch('/:id', auth, resturantController.update)
+resturantRouter.patch('/:id', [auth, resturantController.update] as RequestHandler[])
 
-resturantRouter.delete('/:id', auth, resturantController.deleteResturant)
+resturantRouter.delete('/:id', [auth, resturantController.deleteResturant] as RequestHandler[])
 
-resturantRouter.get('/', auth, resturantController.getAll)
+resturantRouter.get('/', [auth, resturantController.getAll] as RequestHandler[])
 
 // userRouter.post('/login', userController.login)
 
