@@ -17,6 +17,6 @@ export interface UserResponse extends Omit<UserInterface, 'password' | 'createdA
     created_at: Date;
     updated_at: Date;
     deleted_at?: Date;
-    access_token: string;
-    refresh_token: string;
+    access_token?: string;
+    refresh_token?: string;
 }

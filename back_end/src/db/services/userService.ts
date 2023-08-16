@@ -9,3 +9,7 @@ export const login = async (payload: UserInput): Promise<UserOutput> => {
     const email: string = payload.email as string;
     return await userDal.getByEmail(email)
 }
+
+export const getById = async (id: number): Promise<UserOutput> => {
+    return userDal.getById(id)
+}

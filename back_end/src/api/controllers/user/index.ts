@@ -17,7 +17,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         const newUser: UserOutput = await service.register(payload);
 
         const newAccessAndRefreshTokenResponse: RefreshTokenOutput = await createAccessAndRefreshToken(newUser.id, newUser.email)
-        const userRes: UserResponse = toUser(newUser, newAccessAndRefreshTokenResponse.access_token, newAccessAndRefreshTokenResponse.refresh_token)
+        const userRes: UserResponse = toUser(newUser, newAccessAndRefreshTokenResponse)
         return res.status(201).send(userRes)
     }
     catch (error) {
@@ -39,7 +39,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
         if (isMatch) {
             const newAccessAndRefreshTokenResponse: RefreshTokenOutput = await createAccessAndRefreshToken(foundUser.id, foundUser.email)
-            const userRes: UserResponse = toUser(foundUser, newAccessAndRefreshTokenResponse.access_token, newAccessAndRefreshTokenResponse.refresh_token)
+            const userRes: UserResponse = toUser(foundUser, newAccessAndRefreshTokenResponse)
             return res.status(200).send(userRes)
         } else {
             return res.status(401).send({ message: 'Password is wrong' });
@@ -87,6 +87,27 @@ export const authRefreshToken = async (req: Request, res: Response): Promise<Res
     } catch (error) {
         console.log(`Error occured when refreshing the access token : ${error}`)
         return res.status(403).send({ message: 'Could not refresh the access token' })
+    }
+
+}
+
+export const getUserByRefreshToken = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const refreshToken: string = req.body.refresh_token;
+
+        if (!refreshToken) {
+            throw new Error('request not include the refresh token')
+        }
+
+        const decoded: JwtPayload = jwt.verify(refreshToken, SECRET_KEY) as JwtPayload;
+
+        const user: UserOutput = await service.getById(decoded._id)
+
+        return res.status(200).send(toUser(user))
+
+    } catch (error) {
+        console.log(`Error occured when getUserByRefreshToken : ${error}`)
+        return res.status(403).send({ message: 'Invalid refresh_token' })
     }
 
 }

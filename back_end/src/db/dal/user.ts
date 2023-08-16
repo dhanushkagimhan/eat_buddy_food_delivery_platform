@@ -10,3 +10,8 @@ export const getByEmail = async (userEmail: string): Promise<UserOutput> => {
     const userRes = await User.findOne({ where: { email: userEmail } }) as unknown as UserOutput;
     return userRes
 }
+
+export const getById = async (id: number): Promise<UserOutput> => {
+    const userRes = await User.findByPk(id) as unknown as UserOutput;
+    return userRes
+}
