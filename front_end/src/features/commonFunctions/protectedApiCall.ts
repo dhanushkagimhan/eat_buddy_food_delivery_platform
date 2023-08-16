@@ -14,17 +14,13 @@ export default async function ProtectedApiCall<DataT, ResponseT>(subUrl: string,
 
     const authState = state.auth;
 
-    if (!authState.userInfo?.access_token) {
-        throw new Error('User is not authenticated')
-    }
-
     const config: AxiosRequestConfig<DataT> = {
         url: `${backendURl}/${subUrl}`,
         method: apiMethod,
         data: bodyData,
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authState.userInfo.access_token}`
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
         }
     }
 

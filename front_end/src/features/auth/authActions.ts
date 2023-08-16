@@ -94,20 +94,13 @@ export const refreshToken = createAsyncThunk<
     }
 >(
     'auth/refresh_token',
-    async (_, thunkAPI) => {
-
-        const { rejectWithValue } = thunkAPI;
-        const { auth } = thunkAPI.getState()
-
-        if (!auth.userInfo?.refresh_token) {
-            return rejectWithValue({ message: "user is not authenticated!" })
-        }
+    async (_, { rejectWithValue }) => {
 
         try {
             const response = await axios.post(
                 `${backendURl}/v1/user/auth-refresh`,
                 {
-                    refresh_token: auth.userInfo.refresh_token
+                    refresh_token: localStorage.getItem('refreshToken')
                 },
                 HeaderConfig()
             )

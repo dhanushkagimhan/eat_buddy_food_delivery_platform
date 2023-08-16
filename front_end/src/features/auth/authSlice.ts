@@ -28,6 +28,8 @@ const authSlice = createSlice({
             .addCase(userLogIn.fulfilled, (state, action) => {
                 state.loading = false;
                 state.userInfo = action.payload;
+                localStorage.setItem('accessToken', action.payload.access_token as string)
+                localStorage.setItem('refreshToken', action.payload.refresh_token as string)
                 state.success = true;
             })
             .addCase(userLogIn.rejected, (state, action) => {
@@ -41,6 +43,8 @@ const authSlice = createSlice({
             .addCase(userSignUp.fulfilled, (state, action) => {
                 state.loading = false;
                 state.userInfo = action.payload;
+                localStorage.setItem('accessToken', action.payload.access_token as string)
+                localStorage.setItem('refreshToken', action.payload.refresh_token as string)
                 state.success = true;
             })
             .addCase(userSignUp.rejected, (state, action) => {
@@ -53,17 +57,18 @@ const authSlice = createSlice({
             })
             .addCase(refreshToken.fulfilled, (state, action) => {
                 state.loading = false
+                localStorage.setItem('accessToken', action.payload.access_token)
+                localStorage.setItem('refreshToken', action.payload.refresh_token)
+                state.success = true
+
                 if (state.userInfo) {
                     state.userInfo.access_token = action.payload.access_token
-                    state.userInfo.refresh_token = action.payload.refresh_token
-                    state.success = true
-                } else {
-                    state.success = false
-                    state.error = "user is not authenticated"
+                    state.userInfo.refresh_token = action.payload.refresh_token                    
                 }
             })
             .addCase(refreshToken.rejected, (state, action) => {
                 state.loading = false
+                state.success = false
                 state.error = action.payload?.message
             })
     }

@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, TextField, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Alert, Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, TextField, ThemeProvider, Typography, createTheme } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import './SignUp.scss'
 import { UserInterface } from '../../../common/interfaces';
