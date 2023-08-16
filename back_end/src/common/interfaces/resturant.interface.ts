@@ -12,3 +12,8 @@ export interface ResturantInterface {
 
 export interface ResturantInput extends Optional<ResturantInterface, 'id'> { }
 export interface ResturantOutput extends Required<ResturantInterface> { }
+export interface ResturantResponse extends Omit<ResturantInterface, 'createdAt' | 'updatedAt' | 'deletedAt'> {
+    created_at: Date;
+    updated_at: Date;
+    deleted_at?: Date;
+}

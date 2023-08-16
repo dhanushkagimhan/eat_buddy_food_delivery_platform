@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { ResturantInput } from "../../../common/interfaces";
 import * as service from '../../../db/services/resturantService'
+import toResturant from "./mapper";
 
-export const create = async (req: Request, res: Response) => {
+export const create = async (req: Request, res: Response): Promise<Response> => {
     const payload: ResturantInput = req.body;
     try {
         const newResturant = await service.create(payload);
-        return res.status(201).send(newResturant)
+        return res.status(201).send(toResturant(newResturant))
     }
     catch (error) {
         console.log(`Unexpected Error : ${error}`)
@@ -14,11 +15,11 @@ export const create = async (req: Request, res: Response) => {
     }
 }
 
-export const getResturant = async (req: Request, res: Response) => {
+export const getResturant = async (req: Request, res: Response): Promise<Response> => {
     const id: number = req.params.id as unknown as number;
     try {
         const resturant = await service.getById(id);
-        return res.status(200).send(resturant)
+        return res.status(200).send(toResturant(resturant))
     }
     catch (error) {
         if (error instanceof Error) {
@@ -32,12 +33,12 @@ export const getResturant = async (req: Request, res: Response) => {
     }
 }
 
-export const update = async (req: Request, res: Response) => {
+export const update = async (req: Request, res: Response): Promise<Response> => {
     const id: number = req.params.id as unknown as number;
     const payload: ResturantInput = req.body;
     try {
         const resturant = await service.update(id, payload);
-        return res.status(200).send(resturant)
+        return res.status(200).send(toResturant(resturant))
     }
     catch (error) {
         if (error instanceof Error) {
@@ -51,7 +52,7 @@ export const update = async (req: Request, res: Response) => {
     }
 }
 
-export const deleteResturant = async (req: Request, res: Response) => {
+export const deleteResturant = async (req: Request, res: Response): Promise<Response> => {
     const id: number = req.params.id as unknown as number;
     try {
         await service.deleteById(id);
@@ -69,10 +70,10 @@ export const deleteResturant = async (req: Request, res: Response) => {
     }
 }
 
-export const getAll = async (req: Request, res: Response) => {
+export const getAll = async (req: Request, res: Response): Promise<Response> => {
     try {
         const resturants = await service.getAll();
-        return res.status(200).send(resturants)
+        return res.status(200).send(resturants.map((resturant) => toResturant(resturant)))
     }
     catch (error) {
         console.log(`Unexpected Error : ${error}`)

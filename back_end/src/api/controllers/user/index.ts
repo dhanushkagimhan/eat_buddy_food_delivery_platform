@@ -7,7 +7,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { SECRET_KEY } from '../../middleware/auth';
 import * as refreshTokenService from '../../../db/services/refreshTokenService'
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response): Promise<Response> => {
     const payload: UserInput = req.body;
     try {
         const saltRound = 8
@@ -26,7 +26,7 @@ export const register = async (req: Request, res: Response) => {
     }
 }
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): Promise<Response> => {
     const payload: UserInput = req.body;
     try {
         const foundUser: UserOutput = await service.login(payload)
@@ -50,7 +50,7 @@ export const login = async (req: Request, res: Response) => {
     }
 }
 
-export const authRefreshToken = async (req: Request, res: Response) => {
+export const authRefreshToken = async (req: Request, res: Response): Promise<Response> => {
     try {
         const refreshToken: string = req.body.refresh_token;
 
