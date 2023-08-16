@@ -7,6 +7,6 @@ userRouter.post('/register', userController.register)
 
 userRouter.post('/login', userController.login)
 
-userRouter.get('/auth-refresh', userController.authRefreshToken)
+userRouter.post('/auth-refresh', userController.authRefreshToken)
 
 export default userRouter

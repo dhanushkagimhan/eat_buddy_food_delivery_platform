@@ -1,7 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AsyncThunkRejectError, UserCredential, UserInterface } from "../../common/interfaces";
+import { AsyncThunkRejectError, RefreshToken, UserCredential, UserInterface } from "../../common/interfaces";
 import { HeaderConfig } from "../utilityFunction/headerConfig";
+import { RootState } from "../../app/store";
 
 const backendURl = process.env.REACT_APP_BACKEND_URL;
 
@@ -68,7 +69,7 @@ export const userSignUp = createAsyncThunk<
             return response.data
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                console.log('login data fetch error ', error)
+                console.log('signup data fetch error ', error)
                 if (error.response?.data) {
                     return rejectWithValue({ message: error.response?.data.message })
                 }
@@ -80,6 +81,52 @@ export const userSignUp = createAsyncThunk<
                 console.log('Unexpected error: ', error)
                 return rejectWithValue({ message: "unknown error" })
             }
+        }
+    }
+)
+
+export const refreshToken = createAsyncThunk<
+    RefreshToken,
+    void,
+    {
+        rejectValue: AsyncThunkRejectError,
+        state: RootState
+    }
+>(
+    'auth/refresh_token',
+    async (_, thunkAPI) => {
+
+        const { rejectWithValue } = thunkAPI;
+        const { auth } = thunkAPI.getState()
+
+        if (!auth.userInfo?.refresh_token) {
+            return rejectWithValue({ message: "refresh token not have in the auth state" })
+        }
+
+        try {
+            const response = await axios.post(
+                `${backendURl}/v1/user/auth-refresh`,
+                {
+                    refresh_token: auth.userInfo.refresh_token
+                },
+                HeaderConfig()
+            )
+
+            return response.data
+        } catch (error) {
+
+            if (!axios.isAxiosError(error)) {
+                console.log('Unexpected error: ', error)
+                return rejectWithValue({ message: "unknown error" })
+            }
+
+            console.log('refresh token data fetch error ', error)
+
+            if (!error.response?.data) {
+                return rejectWithValue({ message: error.message })
+            }
+
+            return rejectWithValue({ message: error.response?.data.message })
         }
     }
 )

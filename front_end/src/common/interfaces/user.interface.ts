@@ -12,5 +12,11 @@ export interface UserInterface {
     created_at?: Date;
     updated_at?: Date;
     deleted_at?: Date;
-    token?: string;
+    access_token?: string;
+    refresh_token?: string;
+}
+
+export interface RefreshToken {
+    refresh_token: string;
+    access_token: string;
 }
