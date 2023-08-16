@@ -100,7 +100,7 @@ export const refreshToken = createAsyncThunk<
         const { auth } = thunkAPI.getState()
 
         if (!auth.userInfo?.refresh_token) {
-            return rejectWithValue({ message: "refresh token not have in the auth state" })
+            return rejectWithValue({ message: "user is not authenticated!" })
         }
 
         try {

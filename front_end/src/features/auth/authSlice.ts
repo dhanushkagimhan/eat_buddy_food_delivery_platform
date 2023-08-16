@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogIn, userSignUp } from "./authActions";
+import { userLogIn, userSignUp, refreshToken } from "./authActions";
 import { UserInterface } from "../../common/interfaces";
 
 interface AuthState {
@@ -34,6 +34,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload?.message;
             })
+
             .addCase(userSignUp.pending, (state) => {
                 state.loading = true;
             })
@@ -45,6 +46,25 @@ const authSlice = createSlice({
             .addCase(userSignUp.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload?.message;
+            })
+
+            .addCase(refreshToken.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(refreshToken.fulfilled, (state, action) => {
+                state.loading = false
+                if (state.userInfo) {
+                    state.userInfo.access_token = action.payload.access_token
+                    state.userInfo.refresh_token = action.payload.refresh_token
+                    state.success = true
+                } else {
+                    state.success = false
+                    state.error = "user is not authenticated"
+                }
+            })
+            .addCase(refreshToken.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload?.message
             })
     }
 })

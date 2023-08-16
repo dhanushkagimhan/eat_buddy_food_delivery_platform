@@ -18,7 +18,7 @@ Then, Open the new terminal and run,
 
 Then, Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-**Added the `.env` file to this repository and not included to the `.gitignore` file for your simplisity. (Normally `.env` file indluding to the `.gitignore` file)**
+**Added the `.env` file to this repository and not included to the `.gitignore` file for your simplisity. ( Normally `.env` file indluding to the `.gitignore` file )**
 
 ## Guide to view the ER Diagram
 
