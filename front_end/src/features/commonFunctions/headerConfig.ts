@@ -1,4 +1,4 @@
-export function HeaderConfig() {
+export default function HeaderConfig() {
     return ({
         headers: {
             'Content-Type': 'application/json',

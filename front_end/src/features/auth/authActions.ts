@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AsyncThunkRejectError, RefreshToken, UserCredential, UserInterface } from "../../common/interfaces";
-import { HeaderConfig } from "../utilityFunction/headerConfig";
+import HeaderConfig from "../commonFunctions/headerConfig";
 import { RootState } from "../../app/store";
 
 const backendURl = process.env.REACT_APP_BACKEND_URL;
