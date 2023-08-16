@@ -1,6 +1,6 @@
-import { RefreshTokenInput, RefreshTokenInterface, RefreshTokenOutput } from "./refreshToken.interface";
+import { RefreshTokenInput, RefreshTokenInterface, RefreshTokenOutput, RefreshTokenResponse } from "./refreshToken.interface";
 import { ResturantInput, ResturantInterface, ResturantOutput } from "./resturant.interface";
-import { UserInterface, UserInput, UserOutput, UserResponse, RefreshTokenResponse } from "./user.interface";
+import { UserInterface, UserInput, UserOutput, UserResponse } from "./user.interface";
 
 export {
     UserInterface,

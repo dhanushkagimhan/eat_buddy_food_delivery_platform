@@ -13,3 +13,8 @@ export interface RefreshTokenInterface {
 
 export interface RefreshTokenInput extends Optional<RefreshTokenInterface, 'id'> { }
 export interface RefreshTokenOutput extends Required<RefreshTokenInterface> { }
+
+export interface RefreshTokenResponse {
+    access_token: string;
+    refresh_token: string;
+}

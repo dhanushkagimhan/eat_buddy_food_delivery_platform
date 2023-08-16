@@ -9,7 +9,6 @@ export const toUser = (userRes: UserOutput, accessToken: string, refreshToken: s
         access_token: accessToken,
         refresh_token: refreshToken,
         created_at: userRes.createdAt,
-        updated_at: userRes.updatedAt,
-        deleted_at: userRes.deletedAt
+        updated_at: userRes.updatedAt
     }
 }
