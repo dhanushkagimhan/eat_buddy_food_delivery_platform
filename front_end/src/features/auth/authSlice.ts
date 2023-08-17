@@ -7,19 +7,31 @@ interface AuthState {
     userInfo?: UserInterface;
     error?: string;
     success: boolean;
+    backgroundRefreshError?: string
 }
 
 const initialState: AuthState = {
     loading: false,
     userInfo: undefined,
     error: undefined,
-    success: false
+    success: false,
+    backgroundRefreshError: undefined
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        logOut: (state) => {
+            state.loading = false;
+            state.userInfo = undefined;
+            state.error = undefined;
+            state.success = false;
+            state.backgroundRefreshError = undefined
+            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('accessToken')
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(userLogIn.pending, (state) => {
@@ -69,7 +81,7 @@ const authSlice = createSlice({
             .addCase(refreshToken.rejected, (state, action) => {
                 state.loading = false
                 state.success = false
-                state.error = action.payload?.message
+                state.backgroundRefreshError = action.payload?.message
             })
 
             .addCase(getUserByRefreshToken.pending, (state) => {
@@ -84,9 +96,10 @@ const authSlice = createSlice({
             .addCase(getUserByRefreshToken.rejected, (state, action) => {
                 state.loading = false;
                 state.success = false;
-                state.error = action.payload?.message;
+                state.backgroundRefreshError = action.payload?.message;
             })
     }
 })
 
+export const { logOut } = authSlice.actions;
 export default authSlice.reducer;

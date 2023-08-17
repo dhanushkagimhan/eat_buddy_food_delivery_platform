@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect } from 'react';
 import { getUserByRefreshToken } from '../../features/auth/authActions';
+import { logOut } from '../../features/auth/authSlice';
 
 export default function Header() {
     const authState = useAppSelector((state) => state.auth)
@@ -26,10 +27,10 @@ export default function Header() {
                     {authState.success ?
                         <>
                             <Grid item xs={2}>
-
+                                <Button>Account</Button>
                             </Grid>
                             <Grid item xs={2}>
-                                <Button>Account</Button>
+                                <Button onClick={() => dispatch(logOut())}>Log out</Button>
                             </Grid>
                         </>
 
