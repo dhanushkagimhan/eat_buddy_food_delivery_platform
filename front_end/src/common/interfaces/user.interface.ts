@@ -20,3 +20,7 @@ export interface RefreshToken {
     refresh_token: string;
     access_token: string;
 }
+
+export interface GetUserByRefreshTokenInput {
+    refresh_token: string;
+}

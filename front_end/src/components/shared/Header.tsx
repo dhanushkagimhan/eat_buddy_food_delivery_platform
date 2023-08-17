@@ -1,11 +1,21 @@
 import { Box, Button, Grid, Link } from '@mui/material';
 import './Header.scss';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useEffect } from 'react';
+import { getUserByRefreshToken } from '../../features/auth/authActions';
 
 export default function Header() {
-    const [isLogin, setIsLogin] = useState<boolean>(false)
+    const authState = useAppSelector((state) => state.auth)
     const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (localStorage.getItem('refreshToken')) {
+            dispatch(getUserByRefreshToken())
+        }
+    }, [])
+
     return (
         <div className='header'>
             <Box sx={{ flexGrow: 1 }}>
@@ -13,7 +23,17 @@ export default function Header() {
                     <Grid item xs={8}>
                         <Link className='mainPageBtn' component="button" underline='none' onClick={() => navigate('/')}>Eat Buddy</Link>
                     </Grid>
-                    {isLogin ? <div>user name</div> :
+                    {authState.success ?
+                        <>
+                            <Grid item xs={2}>
+
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Button>Account</Button>
+                            </Grid>
+                        </>
+
+                        :
                         <>
                             <Grid item xs={2}>
                                 <Button onClick={() => navigate('/login')}>Sign up or log in</Button>

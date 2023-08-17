@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogIn, userSignUp, refreshToken } from "./authActions";
+import { userLogIn, userSignUp, refreshToken, getUserByRefreshToken } from "./authActions";
 import { UserInterface } from "../../common/interfaces";
 
 interface AuthState {
@@ -70,6 +70,21 @@ const authSlice = createSlice({
                 state.loading = false
                 state.success = false
                 state.error = action.payload?.message
+            })
+
+            .addCase(getUserByRefreshToken.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getUserByRefreshToken.fulfilled, (state, action) => {
+                state.loading = false;
+                console.log('authSlice when get user by rt : ', action.payload)
+                state.userInfo = action.payload;
+                state.success = true;
+            })
+            .addCase(getUserByRefreshToken.rejected, (state, action) => {
+                state.loading = false;
+                state.success = false;
+                state.error = action.payload?.message;
             })
     }
 })

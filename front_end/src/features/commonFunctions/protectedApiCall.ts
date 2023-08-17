@@ -33,7 +33,10 @@ export default async function ProtectedApiCall<DataT, ResponseT>(subUrl: string,
         console.log('Error in 1 st ProtectedApiCall : ', error)
         haddlingError(error)
 
+        console.log('Before the dipathing step of refreshToken : ', authState.success)
         dispatch(refreshToken())
+
+        console.log('pass the dipathing step of refreshToken : ', authState.success)
 
         if (!authState.success) {
             throw new Error(authState.error)
@@ -62,7 +65,10 @@ function haddlingError(error: unknown) {
         throw new Error(error.message)
     }
 
-    if ((error.response?.data.message !== 'Please authenticate') || (error.response?.data.status !== 201)) {
+    console.log("wwwwwwwwwwwwwww ", error.response?.request.status)
+
+    if ((error.response?.data.message !== 'Please authenticate') || (error.response?.request.status !== 401)) {
+        console.log('eeeeeeeeeeeee ', (error.response?.request.status !== 401))
         throw new Error("unknown error")
     }
 }

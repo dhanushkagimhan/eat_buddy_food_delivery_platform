@@ -1,8 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AsyncThunkRejectError, RefreshToken, UserCredential, UserInterface } from "../../common/interfaces";
+import { AsyncThunkRejectError, GetUserByRefreshTokenInput, RefreshToken, UserCredential, UserInterface } from "../../common/interfaces";
 import HeaderConfig from "../commonFunctions/headerConfig";
-import { RootState } from "../../app/store";
+import { AppDispatch, RootState } from "../../app/store";
+import ProtectedApiCall, { apiMethods } from "../commonFunctions/protectedApiCall";
 
 const backendURl = process.env.REACT_APP_BACKEND_URL;
 
@@ -120,6 +121,41 @@ export const refreshToken = createAsyncThunk<
             }
 
             return rejectWithValue({ message: error.response?.data.message })
+        }
+    }
+)
+
+export const getUserByRefreshToken = createAsyncThunk<
+    UserInterface,
+    void,
+    {
+        rejectValue: AsyncThunkRejectError,
+        state: RootState,
+        dispatch: AppDispatch
+    }
+>(
+    'user/getByRefreshToken',
+    async (_, thunkAPI) => {
+        try {
+            const resturants: UserInterface = await ProtectedApiCall<GetUserByRefreshTokenInput, UserInterface>(
+                'v1/user/me',
+                apiMethods.POST,
+                thunkAPI.dispatch,
+                thunkAPI.getState(),
+                {
+                    refresh_token: localStorage.getItem('refreshToken') as string
+                }
+            )
+
+            return resturants
+        } catch (error) {
+            console.log('error when user/getByRefreshToken : ', error)
+            if (error instanceof Error) {
+                return thunkAPI.rejectWithValue({ message: error.message })
+            }
+
+            return thunkAPI.rejectWithValue({ message: 'Unknown error' })
+
         }
     }
 )

@@ -12,7 +12,7 @@ export const getResturants = createAsyncThunk<
         dispatch: AppDispatch
     }
 >(
-    'getAllResturants',
+    'resturant/getAll',
     async (_, thunkAPI) => {
         try {
             const resturants: ResturantInterface[] = await ProtectedApiCall<undefined, ResturantInterface[]>(
