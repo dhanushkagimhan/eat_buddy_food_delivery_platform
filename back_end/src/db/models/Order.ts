@@ -1,13 +1,11 @@
 import { DataTypes, Model } from 'sequelize'
 import { sequelizeConnection } from '../config'
-import { RefreshTokenInput, RefreshTokenInterface } from '../../common/interfaces'
 import User from './User'
+import { OrderInput, OrderInterface } from '../../common/interfaces'
 
-class RefreshToken extends Model<RefreshTokenInterface, RefreshTokenInput> implements RefreshTokenInterface {
+class Order extends Model<OrderInterface, OrderInput> implements OrderInterface {
     public id!: number
-    public refresh_token!: string
-    public access_token!: string
-    public is_valid!: boolean
+    public total_price!: number
     public user_id!: number
 
     public readonly createdAt!: Date;
@@ -15,22 +13,14 @@ class RefreshToken extends Model<RefreshTokenInterface, RefreshTokenInput> imple
     public readonly deletedAt!: Date;
 }
 
-RefreshToken.init({
+Order.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
     },
-    refresh_token: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
-    access_token: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
-    is_valid: {
-        type: DataTypes.BOOLEAN,
+    total_price: {
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
     user_id: {
@@ -47,4 +37,4 @@ RefreshToken.init({
     paranoid: true
 })
 
-export default RefreshToken;
+export default Order;

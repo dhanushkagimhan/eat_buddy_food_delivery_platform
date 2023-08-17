@@ -1,19 +1,21 @@
 import { DataTypes, Model } from 'sequelize'
 import { sequelizeConnection } from '../config'
-import { ResturantInput, ResturantInterface } from '../../common/interfaces'
+import { StaffInput, StaffInterface } from '../../common/interfaces'
+import Resturant from './Resturant'
 
-class Resturant extends Model<ResturantInterface, ResturantInput> implements ResturantInterface {
+class Staff extends Model<StaffInterface, StaffInput> implements StaffInterface {
     public id!: number
     public name!: string
     public address!: string
     public phone_number!: string
+    public resturant_id!: number
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
 }
 
-Resturant.init({
+Staff.init({
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -30,6 +32,14 @@ Resturant.init({
     phone_number: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    resturant_id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false,
+        references: {
+            model: Resturant,
+            key: 'id'
+        }
     }
 }, {
     timestamps: true,
@@ -37,4 +47,4 @@ Resturant.init({
     paranoid: true
 })
 
-export default Resturant;
+export default Staff;

@@ -9,7 +9,6 @@ class User extends Model<UserInterface, UserInput> implements UserInterface {
     public last_name!: string
     public password!: string
 
-    // timestamps!
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
