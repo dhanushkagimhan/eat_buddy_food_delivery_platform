@@ -1,10 +1,15 @@
 .header {
-    // width: 100%;
     border-bottom: 1px solid black;
-    // padding: 20px;
+    padding: 20px;
 
-    .mainPageBtn {
+    .logoBtn {
         color: black;
-        margin-left: 20px;
+    }
+
+    .headerBtn {
+        color: black;
+        border-radius: 4px;
+        border: 1px solid #e8ebeb;
+        text-transform: none;
     }
 }

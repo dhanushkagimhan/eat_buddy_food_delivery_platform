@@ -20,7 +20,7 @@ export default function Home() {
         }
         if (resturantState.success) {
             return ((resturantState.resturantInfo as ResturantInterface[]).map((resturant: ResturantInterface) => {
-                return <p key={resturant.id}>{resturant.name}</p>
+                return <p className='resturant' key={resturant.id}>{resturant.name}</p>
             }))
         }
 
@@ -30,7 +30,7 @@ export default function Home() {
 
     return (
 
-        <div>
+        <div className='home'>
             Home page. Hi user
 
             <div>

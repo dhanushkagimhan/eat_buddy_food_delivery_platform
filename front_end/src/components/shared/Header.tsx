@@ -20,9 +20,12 @@ export default function Header() {
     return (
         <div className='header'>
             <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                    <Grid item xs={8}>
-                        <Link className='mainPageBtn' component="button" underline='none' onClick={() => navigate('/')}>Eat Buddy</Link>
+                <Grid container>
+                    <Grid item xs={4}>
+                        <Link className='logoName' component="button" underline='none' onClick={() => navigate('/')}>Eat Buddy</Link>
+                    </Grid>
+                    <Grid item xs={4}>
+
                     </Grid>
                     {authState.success ?
                         <>
@@ -30,17 +33,17 @@ export default function Header() {
                                 <Button>Account</Button>
                             </Grid>
                             <Grid item xs={2}>
-                                <Button onClick={() => dispatch(logOut())}>Log out</Button>
+                                <Button variant="outlined" className='headerBtn' onClick={() => dispatch(logOut())}>Log out</Button>
                             </Grid>
                         </>
 
                         :
                         <>
                             <Grid item xs={2}>
-                                <Button onClick={() => navigate('/login')}>Sign up or log in</Button>
+                                <Button variant="outlined" className='headerBtn' onClick={() => navigate('/login')}>Sign up or log in</Button>
                             </Grid>
                             <Grid item xs={2}>
-                                <Button>Account</Button>
+                                <Button variant="outlined" className='headerBtn'>Account</Button>
                             </Grid>
                         </>
                     }
