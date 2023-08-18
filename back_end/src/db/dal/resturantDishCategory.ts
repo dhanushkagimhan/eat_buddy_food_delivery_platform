@@ -11,3 +11,8 @@ export const createResturantDishCategory = async (payload: ResturantDishCategory
     const resturantRes = await ResturantDishCategory.create(payload, { transaction: t }) as unknown as ResturantDishCategoryOutput
     return resturantRes
 }
+
+export const getDishCategoryByName = async (dishCategoryName: string, t: Transaction): Promise<DishCategoryOutput> => {
+    const resturantRes = await DishCategory.findOne({ where: { name: dishCategoryName }, transaction: t }) as unknown as DishCategoryOutput
+    return resturantRes
+}

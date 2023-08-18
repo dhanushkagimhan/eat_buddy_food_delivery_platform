@@ -10,7 +10,11 @@ export const createResturantDishCategory = async (payload: ResturantDishCategory
 
     try {
         const result: [DishCategoryOutput, ResturantDishCategoryOutput] = await sequelizeConnection.transaction(async (t) => {
-            const newDishCategory: DishCategoryOutput = await resturantDishCategoryDal.createDishCategory(newDishCategoryPayload, t)
+            let newDishCategory: DishCategoryOutput = await resturantDishCategoryDal.getDishCategoryByName(newDishCategoryPayload.name, t)
+
+            if (!newDishCategory) {
+                newDishCategory = await resturantDishCategoryDal.createDishCategory(newDishCategoryPayload, t)
+            }
 
             const newResturantDishCategoryPayload: ResturantDishCategoryInput = {
                 id: undefined,
