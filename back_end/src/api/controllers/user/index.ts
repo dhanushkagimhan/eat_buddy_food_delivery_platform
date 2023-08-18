@@ -31,10 +31,6 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     try {
         const foundUser: UserOutput = await service.login(payload)
 
-        if (!foundUser) {
-            return res.status(404).send({ message: 'Email is not found' })
-        }
-
         const isMatch: boolean = bcrypt.compareSync(payload.password, foundUser.password)
 
         if (isMatch) {
@@ -46,6 +42,9 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         }
     } catch (error) {
         console.log(`Error occured when login : ${error}`)
+        if (error instanceof Error) {
+            return res.status(404).send({ message: 'Email is not found' })
+        }
         return res.status(500).send({ message: 'system Error' });
     }
 }
