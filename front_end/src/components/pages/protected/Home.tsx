@@ -20,7 +20,7 @@ export default function Home() {
         }
         if (resturantState.success) {
             return ((resturantState.resturantInfo as ResturantInterface[]).map((resturant: ResturantInterface) => {
-                return <p className='resturant' key={resturant.id}>{resturant.name}</p>
+                return <div className='resturant' key={resturant.id}>{resturant.name}</div>
             }))
         }
 

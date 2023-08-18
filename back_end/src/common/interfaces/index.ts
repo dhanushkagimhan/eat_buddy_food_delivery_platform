@@ -4,7 +4,7 @@ import { DishOrderInput, DishOrderInterface, DishOrderOutput } from "./dishOrder
 import { OrderInput, OrderInterface, OrderOutput } from "./order.interface";
 import { RefreshTokenInput, RefreshTokenInterface, RefreshTokenOutput, RefreshTokenResponse } from "./refreshToken.interface";
 import { ResturantInput, ResturantInterface, ResturantOutput, ResturantResponse } from "./resturant.interface";
-import { ResturantDishCategoryInput, ResturantDishCategoryInterface, ResturantDishCategoryOutput } from "./resturantDishCategory.interface";
+import { ResturantDishCategoryCreationInput, ResturantDishCategoryCreationOutput, ResturantDishCategoryInput, ResturantDishCategoryInterface, ResturantDishCategoryOutput } from "./resturantDishCategory.interface";
 import { StaffInput, StaffInterface, StaffOutput } from "./staff.interface";
 import { UserInterface, UserInput, UserOutput, UserResponse } from "./user.interface";
 
@@ -38,5 +38,7 @@ export {
     OrderOutput,
     DishOrderInterface,
     DishOrderInput,
-    DishOrderOutput
+    DishOrderOutput,
+    ResturantDishCategoryCreationInput,
+    ResturantDishCategoryCreationOutput
 }

@@ -14,6 +14,6 @@ resturantRouter.delete('/:id', [auth, resturantController.deleteResturant] as Re
 
 resturantRouter.get('/', [auth, resturantController.getAll] as RequestHandler[])
 
-// userRouter.post('/login', userController.login)
+resturantRouter.post('/dish-category/', [auth, resturantController.createResturantDishCategory] as RequestHandler[])
 
 export default resturantRouter
