@@ -7,7 +7,7 @@ export const create = async (payload: ResturantInput): Promise<ResturantOutput> 
 }
 
 export const getByid = async (rId: number): Promise<ResturantOutput> => {
-    const resturantRes = await Resturant.findOne({ where: { id: rId } }) as unknown as ResturantOutput;
+    const resturantRes = await Resturant.findByPk(rId) as unknown as ResturantOutput;
     if (!resturantRes) {
         throw new Error('Resturant not found!')
     }
