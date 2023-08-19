@@ -15,7 +15,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
         const accessToken = req.header('Authorization')?.replace('Bearer ', '');
 
         if (!accessToken) {
-            throw new Error();
+            throw new Error('Access token not have in the request header');
         }
 
         jwt.verify(accessToken, SECRET_KEY);
@@ -25,7 +25,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         const refreshTokenEntry: RefreshTokenOutput = await refreshTokenService.findByAccessToken(accessToken);
         if (!refreshTokenEntry.is_valid) {
-            throw new Error();
+            throw new Error('Access token is token is invalid');
         }
 
         next();

@@ -2,12 +2,12 @@ import { Resturant } from '../models'
 import { ResturantInput, ResturantOutput } from '../../common/interfaces'
 
 export const create = async (payload: ResturantInput): Promise<ResturantOutput> => {
-    const resturantRes = await Resturant.create(payload) as unknown as ResturantOutput
+    const resturantRes = await Resturant.create(payload);
     return resturantRes
 }
 
 export const getByid = async (rId: number): Promise<ResturantOutput> => {
-    const resturantRes = await Resturant.findByPk(rId) as unknown as ResturantOutput;
+    const resturantRes = await Resturant.findByPk(rId);
     if (!resturantRes) {
         throw new Error('Resturant not found!')
     }
@@ -15,7 +15,7 @@ export const getByid = async (rId: number): Promise<ResturantOutput> => {
 }
 
 export const update = async (id: number, payload: Partial<ResturantInput>): Promise<ResturantOutput> => {
-    const resturantRes = await Resturant.findByPk(id)
+    const resturantRes = await Resturant.findByPk(id);
     if (!resturantRes) {
         throw new Error('Resturant not found!')
     }
