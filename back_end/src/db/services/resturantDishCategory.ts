@@ -1,5 +1,4 @@
-import { DishCategoryCreationInputWithResturantId, DishCategoryCreationRequestWithResturant, DishCategoryInterface, DishCategoryOutput, ResturantDishCategoryInput, ResturantDishCategoryOutput } from '../../common/interfaces';
-import { sequelizeConnection } from '../config';
+import { DishCategoryCreationInputWithResturantId, DishCategoryCreationRequestWithResturant, DishCategoryOutput } from '../../common/interfaces';
 import * as resturantDishCategoryDal from '../dal/resturantDishCategory';
 
 // export const createResturantDishCategory = async (payload: ResturantDishCategoryCreationInput): Promise<ResturantDishCategoryCreationOutput> => {
@@ -42,7 +41,7 @@ import * as resturantDishCategoryDal from '../dal/resturantDishCategory';
 //     }
 // }
 
-export const createDishCategoryWithResturantId = (payload: DishCategoryCreationRequestWithResturant) => {
+export const createDishCategoryWithResturantId = (payload: DishCategoryCreationRequestWithResturant): Promise<DishCategoryOutput> => {
     const dalPayload: DishCategoryCreationInputWithResturantId = {
         name: payload.name,
         ResturantDishCategories: [{

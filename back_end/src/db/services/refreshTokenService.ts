@@ -1,7 +1,7 @@
 import * as refreshTokenDal from '../dal/refreshToken'
 import { RefreshTokenInput, RefreshTokenOutput } from "../../common/interfaces"
 
-export const create = (payload: RefreshTokenInput): Promise<RefreshTokenOutput> => {
+export const create = async (payload: RefreshTokenInput): Promise<RefreshTokenOutput> => {
     return refreshTokenDal.create(payload);
 }
 

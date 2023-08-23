@@ -1,5 +1,4 @@
-import { Transaction } from "sequelize"
-import { DishCategoryCreationInputWithResturantId, DishCategoryInput, DishCategoryOutput, ResturantDishCategoryInput, ResturantDishCategoryOutput } from "../../common/interfaces"
+import { DishCategoryCreationInputWithResturantId, DishCategoryOutput } from "../../common/interfaces"
 import { DishCategory, ResturantDishCategory } from "../models"
 
 // export const createDishCategory = async (payload: DishCategoryInput, t: Transaction): Promise<DishCategoryOutput> => {
@@ -17,14 +16,14 @@ import { DishCategory, ResturantDishCategory } from "../models"
 //     return resturantRes
 // }
 
-export const createDishCategoryWithResturantId = async (payload: DishCategoryCreationInputWithResturantId) => {
+export const createDishCategoryWithResturantId = async (payload: DishCategoryCreationInputWithResturantId): Promise<DishCategoryOutput> => {
     const newDishCategory = await DishCategory.create(payload, { include: [ResturantDishCategory] })
     console.log('New dish category with resturant id : ', newDishCategory)
     return newDishCategory
 }
 
 // export const getResturantDishCategories = async (resrutantId: number) => {
-//     const resturntDishCategories = await ResturantDishCategory.findAll({ where: { resturant_id: resrutantId }, include: DishCategory })
+//     const resturntDishCategories = await ResturantDishCategory.findByPk(resrutantId, { include: [DishCategory] })
 //     console.log('resturantDishCategories : ', resturntDishCategories)
 //     return resturntDishCategories
 // }
