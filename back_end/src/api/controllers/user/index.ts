@@ -10,6 +10,11 @@ import * as refreshTokenService from '../../../db/services/refreshTokenService'
 export const register = async (req: Request, res: Response): Promise<Response> => {
     const payload: UserInput = req.body;
     try {
+        const existUser = await service.getByEmail(payload.email as string) //@Todo need to add request body validation
+        if (existUser) {
+            res.status(409).send({ message: "Email is already registered" })
+        }
+
         const saltRound = 8
         const hashPassword: string = await bcrypt.hash(payload.password, saltRound)
         payload.password = hashPassword;
@@ -29,7 +34,11 @@ export const register = async (req: Request, res: Response): Promise<Response> =
 export const login = async (req: Request, res: Response): Promise<Response> => {
     const payload: UserInput = req.body;
     try {
-        const foundUser: UserOutput = await service.login(payload)
+        const foundUser: UserOutput | null = await service.getByEmail(payload.email as string) //@Todo need to add request body validation
+
+        if (!foundUser) {
+            return res.status(404).send({ message: 'Email is not found' })
+        }
 
         const isMatch: boolean = bcrypt.compareSync(payload.password, foundUser.password)
 
@@ -42,9 +51,6 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         }
     } catch (error) {
         console.log(`Error occured when login : ${error}`)
-        if (error instanceof Error) {
-            return res.status(404).send({ message: 'Email is not found' })
-        }
         return res.status(500).send({ message: 'system Error' });
     }
 }
@@ -60,10 +66,6 @@ export const authRefreshToken = async (req: Request, res: Response): Promise<Res
         const decoded: JwtPayload = jwt.verify(refreshToken, SECRET_KEY) as JwtPayload;
 
         const refreshTokenEntry: RefreshTokenOutput = await refreshTokenService.findByRefreshToken(refreshToken)
-
-        if (!refreshTokenEntry) {
-            throw new Error('Entry not having for the refresh token')
-        }
 
         if (!refreshTokenEntry.is_valid) {
             await refreshTokenService.findByUserIdAndUpdateValidity(refreshTokenEntry.user_id, false);

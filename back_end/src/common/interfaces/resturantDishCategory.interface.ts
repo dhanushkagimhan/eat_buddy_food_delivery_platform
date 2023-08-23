@@ -1,5 +1,5 @@
 import { Optional } from "sequelize";
-import { DishCategoryInterface } from "./dishCategory.interface";
+import { DishCategoryInput } from "./dishCategory.interface";
 
 export interface ResturantDishCategoryInterface {
     id: number;
@@ -13,10 +13,15 @@ export interface ResturantDishCategoryInterface {
 export interface ResturantDishCategoryInput extends Optional<ResturantDishCategoryInterface, 'id'> { }
 export interface ResturantDishCategoryOutput extends Required<ResturantDishCategoryInterface> { }
 
-export interface ResturantDishCategoryCreationInput extends DishCategoryInterface {
+export interface DishCategoryCreationRequestWithResturant {
+    name: string;
     resturant_id: number;
 }
 
-export interface ResturantDishCategoryCreationOutput extends ResturantDishCategoryCreationInput {
-    resturant_dish_category_id: number;
+export interface DishCategoryCreationInputWithResturantId extends DishCategoryInput {
+    ResturantDishCategories: Optional<ResturantDishCategoryInput, 'dish_category_id'>[]
 }
+
+// export interface ResturantDishCategoryCreationOutput extends ResturantDishCategoryCreationInput {
+//     resturant_dish_category_id: number;
+// }

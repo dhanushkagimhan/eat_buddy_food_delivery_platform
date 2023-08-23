@@ -44,7 +44,14 @@ RefreshToken.init({
 }, {
     timestamps: true,
     sequelize: sequelizeConnection,
-    paranoid: true
+    paranoid: true,
+})
+
+User.hasMany(RefreshToken, {
+    foreignKey: 'user_id',
+})
+RefreshToken.belongsTo(User, {
+    foreignKey: 'user_id'
 })
 
 export default RefreshToken;

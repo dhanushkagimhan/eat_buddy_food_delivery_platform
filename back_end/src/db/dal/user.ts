@@ -6,11 +6,8 @@ export const create = async (payload: UserInput): Promise<UserOutput> => {
     return userRes
 }
 
-export const getByEmail = async (userEmail: string): Promise<UserOutput> => {
+export const getByEmail = async (userEmail: string): Promise<UserOutput | null> => {
     const userRes = await User.findOne({ where: { email: userEmail } });
-    if (!userRes) {
-        throw new Error('Email is not found')
-    }
     return userRes
 }
 

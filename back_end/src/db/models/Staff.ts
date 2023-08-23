@@ -47,4 +47,13 @@ Staff.init({
     paranoid: true
 })
 
+Resturant.hasMany(Staff, {
+    foreignKey: 'resturant_id',
+    as: 'staff'
+})
+
+Staff.belongsTo(Resturant, {
+    foreignKey: 'resturant_id'
+})
+
 export default Staff;

@@ -42,4 +42,32 @@ ResturantDishCategory.init({
     paranoid: true
 })
 
+Resturant.belongsToMany(DishCategory, {
+    through: ResturantDishCategory,
+    foreignKey: 'resturant_id',
+    otherKey: 'dish_category_id'
+})
+
+DishCategory.belongsToMany(Resturant, {
+    through: ResturantDishCategory,
+    foreignKey: 'dish_category_id',
+    otherKey: 'resturant_id'
+})
+
+Resturant.hasMany(ResturantDishCategory, {
+    foreignKey: 'resturant_id',
+})
+
+ResturantDishCategory.belongsTo(Resturant, {
+    foreignKey: 'resturant_id'
+})
+
+DishCategory.hasMany(ResturantDishCategory, {
+    foreignKey: 'dish_category_id'
+})
+
+ResturantDishCategory.belongsTo(DishCategory, {
+    foreignKey: 'dish_category_id'
+})
+
 export default ResturantDishCategory;
