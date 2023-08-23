@@ -1,5 +1,5 @@
-import { DishCategoryCreationInputWithResturantId, DishCategoryOutput } from "../../common/interfaces"
-import { DishCategory, ResturantDishCategory } from "../models"
+import { DishCategoryCreationInputWithResturantId, DishCategoryOutput, ResturantOutput } from "../../common/interfaces"
+import { DishCategory, Resturant, ResturantDishCategory } from "../models"
 
 // export const createDishCategory = async (payload: DishCategoryInput, t: Transaction): Promise<DishCategoryOutput> => {
 //     const resturantRes = await DishCategory.create(payload, { transaction: t });
@@ -22,8 +22,16 @@ export const createDishCategoryWithResturantId = async (payload: DishCategoryCre
     return newDishCategory
 }
 
-// export const getResturantDishCategories = async (resrutantId: number) => {
-//     const resturntDishCategories = await ResturantDishCategory.findByPk(resrutantId, { include: [DishCategory] })
-//     console.log('resturantDishCategories : ', resturntDishCategories)
-//     return resturntDishCategories
-// }
+export const getDishCategoriesWithResturantId = async (resrutantId: number): Promise<ResturantOutput | null> => {
+    const resturntWithDishCategories = await Resturant.findByPk(resrutantId, {
+        include: {
+            model: DishCategory,
+            through: {
+                attributes: []
+            }
+        }
+    })
+
+    console.log("resturant's DishCategories : ", resturntWithDishCategories)
+    return resturntWithDishCategories
+}

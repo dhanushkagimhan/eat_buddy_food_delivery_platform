@@ -1,4 +1,4 @@
-import { DishCategoryCreationInputWithResturantId, DishCategoryCreationRequestWithResturant, DishCategoryOutput } from '../../common/interfaces';
+import { DishCategoryCreationInputWithResturantId, DishCategoryCreationRequestWithResturant, DishCategoryOutput, ResturantOutput } from '../../common/interfaces';
 import * as resturantDishCategoryDal from '../dal/resturantDishCategory';
 
 // export const createResturantDishCategory = async (payload: ResturantDishCategoryCreationInput): Promise<ResturantDishCategoryCreationOutput> => {
@@ -41,7 +41,7 @@ import * as resturantDishCategoryDal from '../dal/resturantDishCategory';
 //     }
 // }
 
-export const createDishCategoryWithResturantId = (payload: DishCategoryCreationRequestWithResturant): Promise<DishCategoryOutput> => {
+export const createDishCategoryWithResturantId = async (payload: DishCategoryCreationRequestWithResturant): Promise<DishCategoryOutput> => {
     const dalPayload: DishCategoryCreationInputWithResturantId = {
         name: payload.name,
         ResturantDishCategories: [{
@@ -52,6 +52,6 @@ export const createDishCategoryWithResturantId = (payload: DishCategoryCreationR
     return resturantDishCategoryDal.createDishCategoryWithResturantId(dalPayload)
 }
 
-// export const getResturantDishCategories = (resturantId: number) => {
-//     return resturantDishCategoryDal.getResturantDishCategories(resturantId);
-// }
+export const getResturantDishCategories = async (resturantId: number): Promise<ResturantOutput | null> => {
+    return resturantDishCategoryDal.getDishCategoriesWithResturantId(resturantId);
+}

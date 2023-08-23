@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ResturantInput } from "../../../common/interfaces";
 import * as service from '../../../db/services/resturantService'
 import toResturant from "./mapper";
-import { createResturantDishCategory } from "./dishCategory";
+import { createResturantDishCategory, getResturantDishCategories } from "./dishCategory";
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const payload: ResturantInput = req.body;
@@ -82,4 +82,4 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
     }
 }
 
-export { createResturantDishCategory }
+export { createResturantDishCategory, getResturantDishCategories }

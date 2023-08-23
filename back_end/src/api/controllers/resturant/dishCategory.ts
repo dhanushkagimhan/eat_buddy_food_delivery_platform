@@ -14,21 +14,22 @@ export const createResturantDishCategory = async (req: Request, res: Response): 
     }
 }
 
-// export const getResturantDishCategories = async (req: Request, res: Response): Promise<Response> => {
-//     const resturantId: number = req.params.resturant_id as unknown as number;
-//     if (!resturantId) {
-//         return res.status(400).send({ message: 'Please add request_id path value' })
-//     }
-//     try {
-//         const resturantDishCategories = await service.getResturantDishCategories(resturantId)
-//         return res.status(200).send(resturantDishCategories)
-//     } catch (error) {
-//         console.log('Error when getResturantDishCategories : ', error)
+export const getResturantDishCategories = async (req: Request, res: Response): Promise<Response> => {
+    const resturantId: number = req.params.resturant_id as unknown as number;
+    if (!resturantId) {
+        return res.status(400).send({ message: 'Please add request_id path value' })
+    }
 
-//         if (error instanceof Error) {
-//             return res.status(500).send({ message: error.message })
-//         }
+    try {
+        const resturantDishCategories = await service.getResturantDishCategories(resturantId)
 
-//         return res.status(500).send({ message: 'unknown error' })
-//     }
-// }
+        if (!resturantDishCategories) {
+            return res.status(404).send({ message: 'Resturant not found' })
+        }
+
+        return res.status(200).send(resturantDishCategories)
+    } catch (error) {
+        console.log('Error when getResturantDishCategories : ', error)
+        return res.status(500).send({ message: 'unknown error' })
+    }
+}
