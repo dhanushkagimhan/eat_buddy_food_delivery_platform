@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import { sequelizeConnection } from '../config'
 import { UserInterface, UserInput } from '../../common/interfaces'
+import bcrypt from 'bcrypt';
 
 class User extends Model<UserInterface, UserInput> implements UserInterface {
     public id!: number
@@ -40,7 +41,14 @@ User.init({
 }, {
     timestamps: true,
     sequelize: sequelizeConnection,
-    paranoid: true
+    paranoid: true,
+    hooks: {
+        beforeCreate: (async (user, options) => {
+            const saltRound = 8
+            const hashPassword: string = await bcrypt.hash(user.password, saltRound)
+            user.password = hashPassword
+        })
+    }
 })
 
 export default User;

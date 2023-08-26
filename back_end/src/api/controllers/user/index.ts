@@ -14,11 +14,6 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         if (existUser) {
             res.status(409).send({ message: "Email is already registered" })
         }
-
-        const saltRound = 8
-        const hashPassword: string = await bcrypt.hash(payload.password, saltRound)
-        payload.password = hashPassword;
-        console.log('payload with hashpassword ', payload)
         const newUser: UserOutput = await service.register(payload);
 
         const newAccessAndRefreshTokenResponse: RefreshTokenOutput = await createAccessAndRefreshToken(newUser.id, newUser.email)
