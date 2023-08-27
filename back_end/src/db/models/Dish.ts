@@ -57,4 +57,20 @@ Dish.init({
     paranoid: true
 })
 
+Resturant.hasMany(Dish, {
+    foreignKey: 'resturant_id'
+})
+
+Dish.belongsTo(Resturant, {
+    foreignKey: 'resturant_id'
+})
+
+DishCategory.hasMany(Dish, {
+    foreignKey: 'dish_category_id'
+})
+
+Dish.belongsTo(DishCategory, {
+    foreignKey: 'dish_category_id'
+})
+
 export default Dish;

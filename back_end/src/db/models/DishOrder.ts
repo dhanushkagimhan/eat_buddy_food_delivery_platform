@@ -7,7 +7,7 @@ import Dish from './Dish'
 class DishOrder extends Model<DishOrderInterface, DishOrderInput> implements DishOrderInterface {
     public id!: number
     public quantity!: number
-    public dish_quantity_price!: number
+    public dish_quantity_total_price!: number
     public order_id!: number
     public dish_id!: number
 
@@ -26,7 +26,7 @@ DishOrder.init({
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    dish_quantity_price: {
+    dish_quantity_total_price: {
         type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },

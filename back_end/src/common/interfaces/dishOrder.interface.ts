@@ -3,7 +3,7 @@ import { Optional } from "sequelize";
 export interface DishOrderInterface {
     id: number;
     quantity: number;
-    dish_quantity_price: number;
+    dish_quantity_total_price: number;
     order_id: number;
     dish_id: number;
     createdAt?: Date;
