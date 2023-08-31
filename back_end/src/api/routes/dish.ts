@@ -6,5 +6,6 @@ const dishRouter = Router()
 
 dishRouter.post('/', [auth, dishController.create] as RequestHandler[])
 
+dishRouter.get('/categorized-dishes/:resturant_id', [auth, dishController.getResturantCategorizedDishes] as RequestHandler[])
 
 export default dishRouter
